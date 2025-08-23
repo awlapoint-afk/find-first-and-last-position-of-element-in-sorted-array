@@ -29,3 +29,24 @@ Constraints:
     -109 <= nums[i] <= 109
     nums is a non-decreasing array.
     -109 <= target <= 109
+
+--- Claude ---
+Ah, I think you're slightly overcomplicating it!
+You wouldn't need two separate while loops within each search.
+
+The key insight is that each binary search (leftmost and rightmost)
+is *always* specialized from the very beginning - there's no "traditional phase"
+followed by a "specialized phase."
+
+For the leftmost search:
+- It's a single `while left <= right` loop throughout
+- When `nums[middle] < target`: move right as usual (`left = middle + 1`)
+- When `nums[middle] > target`: move left as usual (`right = middle - 1`)
+- When `nums[middle] == target`: **this is where it differs** - you keep searching
+  left (`right = middle - 1`) instead of returning, because there might be an
+  even more leftward occurrence
+
+Same idea for the rightmost search, just biased the other direction when you find a match.
+
+So it's really just one while loop per search,
+but with a small tweak to what happens when you find the target. Make sense?
