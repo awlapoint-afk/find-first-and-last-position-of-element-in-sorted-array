@@ -1,34 +1,4 @@
 class Solution(object):
-    def search_left(self, nums, start, end, target):
-        left = start
-        right = end
-
-        while left <= right:
-            middle = left + (right - left) // 2
-            if nums[middle] == target:
-                right = middle - 1
-                if right < start:
-                    return right + 1
-            else:
-                left = middle + 1
-
-        return left
-
-    def search_right(self, nums, start, end, target):
-        left = start
-        right = end - 1
-
-        while left <= right:
-            middle = left + (right - left) // 2
-            if nums[middle] == target:
-                left = middle + 1
-                if left > end:
-                    return left - 1
-            else:
-                right = middle - 1
-
-        return right
-
     def searchRange(self, nums, target):
         """
         :type nums: List[int]
@@ -36,8 +6,11 @@ class Solution(object):
         :rtype: List[int]
         """
         nums_len = len(nums)
+
         left = 0
         right = nums_len - 1
+        # search left
+        left_result = -1
         while left <= right:
             middle = left + (right - left) // 2
             if nums[middle] < target:
@@ -45,11 +18,24 @@ class Solution(object):
             elif nums[middle] > target:
                 right = middle - 1
             else: # middle equals target
-                left = self.search_left(nums, 0, middle, target)
-                right = self.search_right(nums, middle, nums_len, target)
-                return [left,right]
+                right = middle - 1
+                left_result = middle
 
-        return [-1, -1]
+        left = 0
+        right = nums_len - 1
+        # search right
+        right_result = -1
+        while left <= right:
+            middle = left + (right - left) // 2
+            if nums[middle] < target:
+                left = middle + 1
+            elif nums[middle] > target:
+                right = middle - 1
+            else: # middle equals target
+                left = middle + 1
+                right_result = middle
+
+        return [left_result, right_result]
 
 solution = Solution()
 print(solution.searchRange([5,7,7,8,8,10], 8))
