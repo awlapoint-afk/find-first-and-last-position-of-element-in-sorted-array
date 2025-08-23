@@ -11,9 +11,9 @@ class Solution(object):
         while left <= right:
             middle = left + (right - left) // 2
             if nums[middle] < target:
-                left += 1
+                left = middle + 1
             elif nums[middle] > target:
-                right -= 1
+                right = middle - 1
             else: # middle equals target
                 left = right = middle
                 # find far left
